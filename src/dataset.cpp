@@ -1,52 +1,53 @@
 #include "dataset.h"
 
-Dataset::Dataset(dataset nome_arquivo){
+Dataset::Dataset(string nome_arquivo){
 
-    std::vector<string> palavras;
-    std::vector<vector<pair<int, int>>> relacao;
+    std::vector<string> palavras_;
+    std::vector<vector<pair<int, int>>> relacao_;
 
-    map<string, int> consultas;
+    map<int, int> consultas_;
 
-    long int contagem_de_documentos = 0;
+    long int contagem_de_documentos_;
+    contagem_de_documentos_ = 0;
 
     string endereco_ = nome_arquivo;
 }
 
 long int Dataset::Contar_palavras(){
-    return palavras.size();
+    return this->palavras_.size();
 }
 
 long int Dataset::Numero_de_documentos(){
-    return contagem_de_documentos;
+    return contagem_de_documentos_;
 }
 
 long int Dataset::Quantos_documentos_possuem_essa_palavra(int idPx){
-    cout << "Documentos do Dataset: " << relacao[idPx].size() << endl;
+    cout << "Documentos do Dataset: " << relacao_[idPx].size() << endl;
     if(idPx >= Numero_de_documentos()) return 0;
-    return relacao[idPx].size();
+    return relacao_[idPx].size();
 }
 
 long int Dataset::Quantas_vezes_dj_possui_Px(int dj, int idPx){
-    if(idPx != -1){
-        for(int i = 0; i < contagem_de_documentos; ++i){
-            if(relacao[idPx][i].first == dj){
-                return relacao[idPx][i].second;
+    if((idPx) != (-1)){
+        for(int i = 0; i < contagem_de_documentos_; ++i){
+            if(relacao_[idPx][i].first == dj){
+                return relacao_[idPx][i].second;
             }
         }
     }
     return 0;
 }
 
-string Dataset::Formata_palavra(string palavra){
-    for (int i = 0; i < palavra.size(); i++){
-        if (((palavra[i] < 'A') || (palavra[i] > 'Z')) && ((palavra[i] < 'a') || (palavra[i] > 'z')) && ((palavra[i] < '0') || (palavra[i] > '9'))){
-            palavra.erase(i, 1);
+string Dataset::Formata_palavra(string word){
+    for (unsigned int i = 0; i < word.size(); i++){
+        if (((word[i] < 'A') || (word[i] > 'Z')) && ((word[i] < 'a') || (word[i] > 'z')) && ((word[i] < '0') || (word[i] > '9'))){
+            word.erase(i, 1);
             i--;
         } else{
-            tolower(palavra[i]);
+            tolower(word[i]);
         }
     }
-    return palavra;
+    return word;
 }
 
 void Dataset::Le_documento(Documento doc){
@@ -58,43 +59,43 @@ void Dataset::Le_documento(Documento doc){
         while(arquivo >> key){
             key = Formata_palavra(key);
             int idKey = Palavra_indice(key);
-            if(idKey =! -1){
-                palavras[idKey][doc.id].second += 1;
+            if((idKey) =! (-1)){
+                relacao_[idKey][doc.id-1].second += 1;
             } else{
                 v.clear();
                 v.push_back(make_pair((int) doc.id, (int) 1));
-                palavras.push_back(v);
+                relacao_.push_back(v);
             }
         }
-        contagem_de_documentos++;
+        contagem_de_documentos_++;
     }
-    cout << "Palavras dentro do Le Documento:" << palavras.size() << endl;
+    cout << "Palavras dentro do Le Documento:" << palavras_.size() << endl;
 }
 
 void Dataset::Le_consulta(vector<string> consulta){
     string key;
-
     for(vector<string>::iterator it = consulta.begin(); it!=consulta.end(); it++){
         key = *it;
         key = Formata_palavra(key);
         int idKey = Palavra_indice(key);
-        if(idKey != -1){
-            if(search(palavras.begin(), palavras.end(), key, key) != consultas.end()){
-                consultas[key]++;
+        if((idKey) != (-1)){
+            auto itr = consultas_.find(idKey);
+            if (itr != consultas_.end()){
+                consultas_[idKey]++;
             } else{
-                consultas.insert(make_pair(key, 1));
+                consultas_.insert(make_pair(idKey, 1));
             }
         }
     }
 }
 
 void Dataset::Le_lista(){
-    contagem_de_documentos = 0;
+    contagem_de_documentos_ = 0;
     ifstream lista;
     lista.open(endereco_+"lista_de_documentos.txt");
 
     if(lista.is_open()){
-        cout << "Palavras dentro do Dataset:" << palavras.size() << endl;
+        cout << "Palavras dentro do Dataset:" << palavras_.size() << endl;
     
     }
 
@@ -111,17 +112,19 @@ void Dataset::Le_lista(){
 
 int Dataset::Palavra_indice(string Word){
     std::vector<string>::iterator it;
-    it = search(palavras.begin(), palavras.end(), Word, Word);
+    vector<string> v;
+    v.push_back(Word);
+    it = search(palavras_.begin(), palavras_.end(), v.begin(), v.end());
 
-    if (it!=palavras.end())
-        return(it-palavras.begin());
+    if (it!=palavras_.end())
+        return(it-palavras_.begin());
     else
         return -1;
 }
 
 Dataset::~Dataset(){
-    palavras.clear();
-    relacao.clear();
-    consultas.clear();
-    contagem_de_documentos = 0;
+    palavras_.clear();
+    relacao_.clear();
+    consultas_.clear();
+    contagem_de_documentos_ = 0;
 }

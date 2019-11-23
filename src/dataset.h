@@ -28,7 +28,7 @@ struct Documento{
 class Dataset{
     public:
         //Inicializa o map e comeca a contagem de documentos
-        Dataset();
+        Dataset(string nome_arquivo);
 
         //Conta a quantidade de palavras diferentes nos documentos
         long int Contar_palavras();
@@ -43,7 +43,7 @@ class Dataset{
         long int Quantas_vezes_dj_possui_Px(int dj, int idPx);
 
         //Remove caracteres especiais da string
-        string Formata_palavra(string palavra);
+        string Formata_palavra(string word);
 
         //Le o arquivo e armazena as informacoes no map
         void Le_documento(Documento doc);
@@ -68,7 +68,7 @@ class Dataset{
         std::vector<vector<pair<int, int>>> relacao_;
 
         // Palavra, quantidade de vezes que a palavra aparece na consulta
-        map<string, int> consultas_;
+        map<int, int> consultas_;
 
         long int contagem_de_documentos_;
 

@@ -44,7 +44,6 @@ double* Indice_invertido::Calc_coordenadas_consulta(){
     for (int word = 0; word <= quant_palavras; word++){
         coordenadas_consulta[word] = W(0,word);
     }
-
     return coordenadas_consulta;
 }
 

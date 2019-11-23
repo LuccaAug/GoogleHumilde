@@ -1,12 +1,12 @@
 #include "ranking.h"
 
 Ranking::Ranking(Indice_invertido id_iv, Dataset* dts){
-    double* coordenadas_consulta_ = id_iv.Calc_coordenadas_consulta_();
+    double* coordenadas_consulta_ = id_iv.Calc_coordenadas_consulta();
     double sum_con_2_ = 0;
     Dataset* ds_ = dts; 
-    int numero_de_palavras = ds_->Contar_palavras();
+    int numero_de_palavras_ = ds_->Contar_palavras();
 
-    for(int palavra = 0; palavra < numero_de_palavras; ++palavra){
+    for(int palavra = 0; palavra < numero_de_palavras_; ++palavra){
         sum_con_2_ += coordenadas_consulta_[palavra]*coordenadas_consulta_[palavra];
     }
 }
@@ -15,8 +15,8 @@ double* Ranking::Ler_coordenadas(int id_documento) {
     ifstream linhas_coordenadas;
     linhas_coordenadas.open("indice_invertido.txt");
 
-    int numero_de_palavras = ds_->Contar_palavras();
-    double* coordenadas_documento = new double[numero_de_palavras];
+    int numero_de_palavras_ = ds_->Contar_palavras();
+    double* coordenadas_documento = new double[numero_de_palavras_];
     double cood;
 
     stringstream lin;
@@ -28,7 +28,7 @@ double* Ranking::Ler_coordenadas(int id_documento) {
 
     lin << linha;
 
-    for(int i=0; i<numero_de_palavras; i++){
+    for(int i=0; i<numero_de_palavras_; i++){
         getline(lin,coordenada, ' ');
         cood = stod(coordenada, nullptr);
         coordenadas_documento[i] = cood;

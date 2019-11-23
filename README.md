@@ -1,20 +1,5 @@
-# GoogleHumildao
+# Sistema de buscas
 
-Faz um arquivo txt com a lista dos documentos na pasta, com python
+Os sistemas de buscas são ferramentas extremamente úteis quando consideramos a quantidade enorme de informação presente na internet, por isso são acessados diariamente por grande parte da população mundial. Além disso, a Google, uma das maiores empresas do mundo, se estabeleceu com a criação de um buscador, sendo hoje provedora de um uma quantidade enorme de serviços variados. 
 
-Le cada linha desse arquivo
-cria um objeto struct Documento com um id e o nome
-Adiciono as palavras do documento no map
-
-Cria um vetor para cada documento com as coordenadas respectivas a cada palavra
-Guarda o vetor num txt
-
-Le a consulta
-Armazena como um vector de string
-Adiciona as palavras da consulta em outro map (só as palavras que ja estao em algum documento)
-
-Cria um vetor com as coordenadas de cada palavra
-
-Le cada vetor das coordenadas do documento
-Faz o cosine ranking entre o vetor da consulta e esse vetor do documento
-Exibe o ranking
+A ideia básica do sistema de buscas desse trabalho é retornar um subconjunto de documentos que correspondem a uma busca feita, sendo que o conjunto é ordenado para melhor responder os interesses do usuário. O código foi feito utilizando principalmente a linguagem C++, com a utilização de Python em apenas um script. Os documentos a serem utilizados como base para a busca devem ficar no diretório “documentos/”.

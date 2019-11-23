@@ -1,33 +1,36 @@
 #include "dataset.h"
 
-Dataset::Dataset(){
+Dataset::Dataset(dataset nome_arquivo){
 
-    std::vector<string> palavras_;
-    std::vector<vector<pair<int, int>>> relacao_;
+    std::vector<string> palavras;
+    std::vector<vector<pair<int, int>>> relacao;
 
-    map<string, int> consultas_;
+    map<string, int> consultas;
 
-    long int contagem_de_documentos_ = 0;
+    long int contagem_de_documentos = 0;
+
+    string endereco_ = nome_arquivo;
 }
 
 long int Dataset::Contar_palavras(){
-    return palavras_.size();
+    return palavras.size();
 }
 
 long int Dataset::Numero_de_documentos(){
-    return contagem_de_documentos_;
+    return contagem_de_documentos;
 }
 
 long int Dataset::Quantos_documentos_possuem_essa_palavra(int idPx){
-    cout << "Documentos do Dataset: " << relacao_[idPx].size() << endl;
-    return relacao_[idPx].size();
+    cout << "Documentos do Dataset: " << relacao[idPx].size() << endl;
+    if(idPx >= Numero_de_documentos()) return 0;
+    return relacao[idPx].size();
 }
 
 long int Dataset::Quantas_vezes_dj_possui_Px(int dj, int idPx){
     if(idPx != -1){
-        for(int i = 0; i < contagem_de_documentos_; ++i){
-            if(relacao_[idPx][i].first == dj){
-                return relacao_[idPx][i].second;
+        for(int i = 0; i < contagem_de_documentos; ++i){
+            if(relacao[idPx][i].first == dj){
+                return relacao[idPx][i].second;
             }
         }
     }
@@ -49,23 +52,23 @@ string Dataset::Formata_palavra(string palavra){
 void Dataset::Le_documento(Documento doc){
     string key;
     ifstream arquivo;
-    arquivo.open("../documentos/"+doc.nome);
+    arquivo.open(endereco_+doc.nome);
     vector<pair<int,int> > v;
     if(arquivo.is_open()){
         while(arquivo >> key){
             key = Formata_palavra(key);
             int idKey = Palavra_indice(key);
             if(idKey =! -1){
-                palavras_[idKey][doc.id].second += 1;
+                palavras[idKey][doc.id].second += 1;
             } else{
                 v.clear();
                 v.push_back(make_pair((int) doc.id, (int) 1));
-                palavras_.push_back(v);
+                palavras.push_back(v);
             }
         }
-        contagem_de_documentos_++;
+        contagem_de_documentos++;
     }
-    cout << "Palavras dentro do Le Documento:" << palavras_.size() << endl;
+    cout << "Palavras dentro do Le Documento:" << palavras.size() << endl;
 }
 
 void Dataset::Le_consulta(vector<string> consulta){
@@ -76,22 +79,22 @@ void Dataset::Le_consulta(vector<string> consulta){
         key = Formata_palavra(key);
         int idKey = Palavra_indice(key);
         if(idKey != -1){
-            if(search(palavras_.begin(), palavras_.end(), key, key) != consultas_.end()){
-                consultas_[key]++;
+            if(search(palavras.begin(), palavras.end(), key, key) != consultas.end()){
+                consultas[key]++;
             } else{
-                consultas_.insert(make_pair(key, 1));
+                consultas.insert(make_pair(key, 1));
             }
         }
     }
 }
 
 void Dataset::Le_lista(){
-    contagem_de_documentos_ = 0;
+    contagem_de_documentos = 0;
     ifstream lista;
-    lista.open("../documentos/lista_de_documentos.txt");
+    lista.open(endereco_+"lista_de_documentos.txt");
 
     if(lista.is_open()){
-        cout << "Palavras dentro do Dataset:" << palavras_.size() << endl;
+        cout << "Palavras dentro do Dataset:" << palavras.size() << endl;
     
     }
 
@@ -108,17 +111,17 @@ void Dataset::Le_lista(){
 
 int Dataset::Palavra_indice(string Word){
     std::vector<string>::iterator it;
-    it = search(palavras_.begin(), palavras_.end(), Word, Word);
+    it = search(palavras.begin(), palavras.end(), Word, Word);
 
-    if (it!=palavras_.end())
-        return(it-palavras_.begin());
+    if (it!=palavras.end())
+        return(it-palavras.begin());
     else
         return -1;
 }
 
 Dataset::~Dataset(){
-    palavras_.clear();
-    relacao_.clear();
-    consultas_.clear();
-    contagem_de_documentos_ = 0;
+    palavras.clear();
+    relacao.clear();
+    consultas.clear();
+    contagem_de_documentos = 0;
 }

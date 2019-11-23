@@ -13,10 +13,10 @@ int main(int argc, char const *argv[])
 		system("./cria_arquivo.py");
 	#endif
 	
-	Dataset ds;
+	Dataset ds("../documentos/documentos/");
 	ds.Dataset::Le_lista();
 
-	Indice_invertido id_iv(&ds, "indice_invertido.txt");
+	Indice_invertido id_iv(&ds);
 	id_iv.Indice_invertido::Arquivo_Indice_Invertido();
 
 	cout<<"chegou aqui"<<endl;

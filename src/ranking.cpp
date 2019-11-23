@@ -2,13 +2,13 @@
 
 Ranking::Ranking(Indice_invertido id_iv, Dataset* dts){
     cout<<"Chamou o construtor ranking"<<endl;
-    double* coordenadas_consulta_ = id_iv.Calc_coordenadas_consulta_();
-    double sum_con_2_ = 0;
-    Dataset* ds_ = dts; 
-    int numero_de_palavras = ds_->Contar_palavras();
+    double* coordenadas_consulta = id_iv.Calc_coordenadas_consulta();
+    double sum_con_2 = 0;
+    Dataset* ds = dts; 
+    int numero_de_palavras = ds->Contar_palavras();
 
     for(int palavra = 0; palavra < numero_de_palavras; ++palavra){
-        sum_con_2_ += coordenadas_consulta_[palavra]*coordenadas_consulta_[palavra];
+        sum_con_2 += coordenadas_consulta[palavra]*coordenadas_consulta[palavra];
     }
 }
 
@@ -17,7 +17,7 @@ double* Ranking::Ler_coordenadas(int id_documento) {
     ifstream linhas_coordenadas;
     linhas_coordenadas.open("test.txt");
 
-    int numero_de_palavras = ds_->Contar_palavras();
+    int numero_de_palavras = ds->Contar_palavras();
     double* coordenadas_documento = new double[numero_de_palavras];
     double cood;
 
@@ -48,15 +48,15 @@ double Ranking::Similaridade(int id_documento) {
 
     coordenadas_documento = Ler_coordenadas(id_documento);
 
-    for(int palavra = 0; palavra < ds_->Contar_palavras(); ++palavra){
-        numerador += coordenadas_documento[palavra]*coordenadas_consulta_[palavra];
+    for(int palavra = 0; palavra < ds->Contar_palavras(); ++palavra){
+        numerador += coordenadas_documento[palavra]*coordenadas_consulta[palavra];
 
         sum_doc_2 += coordenadas_documento[palavra]*coordenadas_documento[palavra];
     }
 
     delete [] coordenadas_documento;
 
-    denominador = sqrt(sum_doc_2)*sqrt(sum_con_2_);
+    denominador = sqrt(sum_doc_2)*sqrt(sum_con_2);
 
     return numerador/denominador;
 }
@@ -68,7 +68,7 @@ vector<vector<int> > Ranking::Ordenar_documentos(){
     vector<vector<int> > ordenado;
     double cos;
 
-    for(int documento=1; documento <= ds_->Numero_de_documentos(); documento++) {
+    for(int documento=1; documento <= ds->Numero_de_documentos(); documento++) {
         cos = Similaridade(documento);
         if(similaridades.find(cos)!=similaridades.end()){
             similaridades[cos].push_back(documento);
@@ -112,6 +112,6 @@ void Ranking::Mostrar_ranking() {
 
 Ranking::~Ranking(){
     cout<<"Chamou o destrutor ranking"<<endl;
-    delete [] coordenadas_consulta_;
-    double sum_con_2_ = 0;
+    delete [] coordenadas_consulta;
+    double sum_con_2 = 0;
 }

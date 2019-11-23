@@ -10,29 +10,27 @@ using namespace std;
 class Indice_invertido{
     public:
 
-        Indice_invertido(Dataset* dts, string arq);
+        Indice_invertido(Dataset* dts);
 
         // Desaloca toda a memória alocada para.
         ~Indice_invertido();
 
         double* Calc_coordenadas_consulta();
 
-    private:
-
-        Dataset* ds;
-
-        string arq_coord;
-
         // Cria um arquivo em que cada linha é um documento dj 
         // e cada coluna uma palavra Px, e na posição (dj, Px)
         // o W correspondente
         void Arquivo_Indice_Invertido();
 
+    private:
+
+        Dataset* ds;
+
         // Calcula a importância de uma palavra em um documento
-        double idf(int idPx);
+        double idf(string Px);
 
         // Calcula a coordenada do documento dj no eixo Px
-        double W(int dj, int idPx);
+        double W(int dj, string Px);
 
     friend class Teste;
 };

@@ -12,16 +12,16 @@
 using namespace std;
 
 struct Documento{
-    int id_;
-    string nome_;
+    int id;
+    string nome;
     
     Documento() {
-        id_ = 0;
-        nome_ = "";
+        id = 0;
+        nome = "";
     }
     Documento(int id_documento, string nome_documento) {
-        id_ = id_documento;
-        nome_ = nome_documento;
+        id = id_documento;
+        nome = nome_documento;
     }
 };
 
@@ -71,6 +71,8 @@ class Dataset{
         map<string, int> consultas_;
 
         long int contagem_de_documentos_;
+
+        string endereco_;
 
     friend class Teste;
 };

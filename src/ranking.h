@@ -31,14 +31,12 @@ class Ranking{
 
 	private:
 		//vetor com todas as coordenadas
-		double* coordenadas_consulta_;
+		double* coordenadas_consulta;
 
 		//somatorio do quadrado das coordenadas
-		double sum_con_2_;
+		double sum_con_2;
 
-		Dataset* ds_;
-
-	friend class Teste;
+		Dataset* ds;
 };
 
 #endif

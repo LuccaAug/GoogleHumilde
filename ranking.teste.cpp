@@ -23,6 +23,7 @@ TEST_SUITE("Ranking"){
 		Ranking r(id_iv_teste, &ds_test);
 		CHECK(Teste::ds(r) == &ds_test);
 		CHECK(Teste::sum_com_2(r) == 0);
+		CHECK(Teste::arq_coord(r) == {0,0,0})
 	}
 
 	TESTE_CASE("Ler_coordenadas()"){

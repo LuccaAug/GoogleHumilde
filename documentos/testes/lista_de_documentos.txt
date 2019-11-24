@@ -1,2 +1,2 @@
-Ipsum.txt
-Lorem.txt
+A.txt
+B.txt

@@ -59,7 +59,7 @@ void Dataset::Le_documento(Documento doc){
         while(arquivo >> key){
             key = Formata_palavra(key);
             int idKey = Palavra_indice(key);
-            if((idKey) =! (-1)){
+            if((idKey) != (-1)){
                 relacao_[idKey][doc.id-1].second += 1;
             } else{
                 v.clear();
